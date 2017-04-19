@@ -31,17 +31,33 @@ public class MainActivity extends AppCompatActivity {
         editTextName.setTextIsSelectable(false);
         editTextId.setClickable(false);
 
-        floatingActionButtonEdit.setOnClickListener(new View.OnClickListener(){
+        floatingActionButtonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 startEditActivity();
             }
         });
     }
 
-    private void startEditActivity(){
-        Intent intentStartEditActivity = new Intent(this, EditActivity.class);
-        startActivityForResult(intentStartEditActivity,REQUEST_CODE_EDIT_ACTIVITY);
+    @Override
+    public void onActivityResult(int request, int result, Intent intent) {
+        switch (result) {
+            case RESULT_OK: {
+                editTextName.setText(intent.getStringExtra("name"));
+                editTextId.setText(intent.getStringExtra("id"));
+                checkBoxAndroid.setChecked(intent.getBooleanExtra(getString(R.string.android_ticked_key), false));
+            }
+            case RESULT_CANCELED: {
+                //not implemented
+            }
+        }
+    }
+
+    private void startEditActivity() {
+        Intent intent = new Intent(this, EditActivity.class);
+        intent.putExtra("name", editTextName.getText().toString());
+        intent.putExtra("id", editTextId.getText().toString());
+        intent.putExtra(getString(R.string.android_ticked_key), checkBoxAndroid.isChecked());
+        startActivityForResult(intent, REQUEST_CODE_EDIT_ACTIVITY);
     }
 }
-
