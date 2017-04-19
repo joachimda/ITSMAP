@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText editTextName;
     private EditText editTextId;
     private CheckBox checkBoxAndroid;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,15 +28,24 @@ public class MainActivity extends AppCompatActivity {
         editTextName = (EditText) findViewById(R.id.editTextName);
         editTextId = (EditText) findViewById(R.id.editTextId);
         checkBoxAndroid = (CheckBox) findViewById(R.id.checkBoxAndroid);
+        imageView = (ImageView) findViewById(R.id.imageView);
 
         checkBoxAndroid.setTextIsSelectable(false);
         editTextName.setTextIsSelectable(false);
         editTextId.setClickable(false);
 
+
         floatingActionButtonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startEditActivity();
+            }
+        });
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startImageCapture();
             }
         });
     }
