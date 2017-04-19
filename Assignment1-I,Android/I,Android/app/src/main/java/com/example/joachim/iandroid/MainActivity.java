@@ -39,7 +39,10 @@ public class MainActivity extends AppCompatActivity {
         editTextName.setTextIsSelectable(false);
         editTextId.setClickable(false);
 
-
+        //check for recreated view
+        if (savedInstanceState != null) {
+            imageView.setImageBitmap((Bitmap) savedInstanceState.getParcelable(getString(R.string.bitmap_saved_key)));
+        }
         floatingActionButtonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,7 +57,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    
+
+    @Override
+    public  void onSaveInstanceState(Bundle bundle){
+
+        bundle.putParcelable(getString(R.string.bitmap_saved_key), bitmap);
+    }
 
     @Override
     public void onActivityResult(int request, int result, Intent intent) {
