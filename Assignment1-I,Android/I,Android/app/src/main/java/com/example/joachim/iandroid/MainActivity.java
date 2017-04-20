@@ -2,10 +2,10 @@ package com.example.joachim.iandroid;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -35,13 +35,14 @@ public class MainActivity extends AppCompatActivity {
         checkBoxAndroid = (CheckBox) findViewById(R.id.checkBoxAndroid);
         imageView = (ImageView) findViewById(R.id.imageView);
 
-        checkBoxAndroid.setTextIsSelectable(false);
-        editTextName.setTextIsSelectable(false);
-        editTextId.setClickable(false);
+        disableUi();
 
         //check for recreated view
         if (savedInstanceState != null) {
-            imageView.setImageBitmap((Bitmap) savedInstanceState.getParcelable(getString(R.string.bitmap_saved_key)));
+            bitmap = savedInstanceState.getParcelable(getString(R.string.bitmap_saved_key));
+            imageView.setImageBitmap(bitmap);
+            editTextId.setText(savedInstanceState.getString(getString(R.string.str_name_key)));
+            editTextId.setText(savedInstanceState.getString(getString(R.string.str_id_key)));
         }
         floatingActionButtonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,8 +61,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public  void onSaveInstanceState(Bundle bundle){
-
         bundle.putParcelable(getString(R.string.bitmap_saved_key), bitmap);
+        bundle.putString(getString(R.string.str_name_key), editTextName.getText().toString());
+        bundle.putString(getString(R.string.str_id_key), editTextId.getText().toString());
+        bundle.putBoolean(getString(R.string.android_ticked_key), checkBoxAndroid.isChecked());
+        super.onSaveInstanceState(bundle);
     }
 
     @Override
@@ -112,5 +116,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void disableUi(){
+        editTextId.setFocusable(false);
+        editTextId.setEnabled(false);
+        editTextId.setCursorVisible(false);
+        editTextId.setKeyListener(null);
 
+        editTextName.setFocusable(false);
+        editTextName.setEnabled(false);
+        editTextName.setCursorVisible(false);
+        editTextName.setKeyListener(null);
+
+        checkBoxAndroid.setFocusable(false);
+        checkBoxAndroid.setEnabled(false);
+        checkBoxAndroid.setCursorVisible(false);
+        checkBoxAndroid.setKeyListener(null);
+    }
 }
