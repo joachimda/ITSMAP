@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 public class EditActivity extends AppCompatActivity {
 
@@ -42,8 +41,8 @@ public class EditActivity extends AppCompatActivity {
                 btnsRadio.check(R.id.radioBtnNo);
             }
         } else {
-            name = getIntent().getStringExtra("name");
-            id = getIntent().getStringExtra("id");
+            name = getIntent().getStringExtra(getString(R.string.name_key));
+            id = getIntent().getStringExtra(getString(R.string.id_key));
 
             if (getIntent().getBooleanExtra(getString(R.string.android_ticked_key), false)) {
                 btnsRadio.check(R.id.radioBtnYes);
@@ -71,8 +70,8 @@ public class EditActivity extends AppCompatActivity {
                 if (btnsRadio.getCheckedRadioButtonId() == R.id.radioBtnYes) {
                     isAndroidTicked = true;
                 }
-                intent.putExtra("name", editTextName.getText().toString());
-                intent.putExtra("id", editTextId.getText().toString());
+                intent.putExtra(getString(R.string.name_key), editTextName.getText().toString());
+                intent.putExtra(getString(R.string.id_key), editTextId.getText().toString());
                 intent.putExtra(getString(R.string.android_ticked_key), isAndroidTicked);
                 setResult(Activity.RESULT_OK, intent);
                 finish();

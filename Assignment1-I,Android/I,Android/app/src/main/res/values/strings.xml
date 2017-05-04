@@ -1,8 +1,20 @@
 <resources>
-<string name="app_name">I,Android</string>
+<string name="app_name" translatable="false">I,Android</string>
 <string name="str_name_key">strName</string>
 <string name="str_id_key">strId</string>
-<string name="android_ticked_key">androidTickedKey</string>
+<string name="android_ticked_key" translatable="false">androidTickedKey</string>
     <string name="image_capture_failed">Something went wrong..</string>
-    <string name="bitmap_saved_key">bitmapSaved</string>
+    <string name="bitmap_saved_key" translatable="false">bitmapSaved</string>
+    <string name="name_key">name</string>
+    <string name="id_key" translatable="false">id</string>
+    <string name="layout_name">Name</string>
+    <string name="layout_id">ID</string>
+    <string name="android" translatable="false">Android</string>
+    <string name="layout_put_your_name_here">put your name here</string>
+    <string name="layout_put_your_id_here">put your ID here</string>
+    <string name="layout_android">Android</string>
+    <string name="btn_text_cancel">Cancel</string>
+    <string name="btn_text_save">Save</string>
+    <string name="radiobtn_text_yes">Yes</string>
+    <string name="radiobtn_text_no">No</string>
 </resources>

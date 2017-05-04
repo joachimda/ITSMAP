@@ -24,7 +24,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Name"
+        android:text="@string/layout_name"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
@@ -43,7 +43,7 @@
         android:id="@+id/textViewId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ID"
+        android:text="@string/layout_id"
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/editTextName"
         android:layout_marginLeft="8dp"
@@ -64,7 +64,7 @@
         android:id="@+id/checkBoxAndroid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Android"
+        android:text="@string/android"
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@+id/editTextId"
         android:layout_marginLeft="8dp"

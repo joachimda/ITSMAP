@@ -1,10 +1,14 @@
 package com.example.joachim.iandroid;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
@@ -16,8 +20,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int REQUEST_CODE_EDIT_ACTIVITY = 100;
     public static final int REQUEST_CODE_CAPTURE_IMAGE = 101;
+    public static final int PERMISSION_REQUEST_CAMERA = 528;
 
-    private FloatingActionButton floatingActionButtonEdit;
     private EditText editTextName;
     private EditText editTextId;
     private CheckBox checkBoxAndroid;
@@ -29,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        floatingActionButtonEdit = (FloatingActionButton) findViewById(R.id.btnFloatEdit);
+        FloatingActionButton floatingActionButtonEdit = (FloatingActionButton) findViewById(R.id.btnFloatEdit);
         editTextName = (EditText) findViewById(R.id.editTextName);
         editTextId = (EditText) findViewById(R.id.editTextId);
         checkBoxAndroid = (CheckBox) findViewById(R.id.checkBoxAndroid);
@@ -37,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
         disableUi();
 
-        //check for recreated view
         if (savedInstanceState != null) {
             bitmap = savedInstanceState.getParcelable(getString(R.string.bitmap_saved_key));
             imageView.setImageBitmap(bitmap);
@@ -88,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
         if (request == REQUEST_CODE_EDIT_ACTIVITY) {
             switch (result) {
                 case RESULT_OK: {
-                    editTextName.setText(intent.getStringExtra("name"));
-                    editTextId.setText(intent.getStringExtra("id"));
+                    editTextName.setText(intent.getStringExtra(getString(R.string.name_key)));
+                    editTextId.setText(intent.getStringExtra(getString(R.string.id_key)));
                     checkBoxAndroid.setChecked(intent.getBooleanExtra(getString(R.string.android_ticked_key), false));
                 }
                 case RESULT_CANCELED: {
@@ -101,19 +104,41 @@ public class MainActivity extends AppCompatActivity {
 
     private void startEditActivity() {
         Intent intent = new Intent(this, EditActivity.class);
-        intent.putExtra("name", editTextName.getText().toString());
-        intent.putExtra("id", editTextId.getText().toString());
+        intent.putExtra(getString(R.string.name_key), editTextName.getText().toString());
+        intent.putExtra(getString(R.string.id_key), editTextId.getText().toString());
         intent.putExtra(getString(R.string.android_ticked_key), checkBoxAndroid.isChecked());
         startActivityForResult(intent, REQUEST_CODE_EDIT_ACTIVITY);
     }
 
     private void startImageCapture() {
+
+        if (!hasPermissions()){
+            return;
+        }
+
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, REQUEST_CODE_CAPTURE_IMAGE);
         } else {
             Toast.makeText(this, getString(R.string.image_capture_failed), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    // The following code is taken from:
+    // https://developer.android.com/training/permissions/requesting.html
+    // used with a few changes.
+    private boolean hasPermissions(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
+                    PERMISSION_REQUEST_CAMERA);
+        }
+        else {
+            return true;
+        }
+
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED;
     }
 
     private void disableUi(){
